@@ -35,7 +35,7 @@ public class TVScreenGUI extends Frame implements MouseListener,
 	// private LocalService<SwitchPower> switchPowerService = null;
 	private LocalService<TVSwitchPowerWithPropertyChangeSupport> tvScreenService = null;
 	private LocalService<TVVolumnControl> volumnControlService = null;
-	private LocalService<TVChannelControlWithPropertyChangeSupport> channelControlService = null;
+	private LocalService<TVChannelControl> channelControlService = null;
 
 	public int WIDTH = 496;
 	public int HEIGHT = 309;
@@ -66,8 +66,9 @@ public class TVScreenGUI extends Frame implements MouseListener,
 	public void paint(Graphics g) {
 		if (tvScreenService != null) {
 			System.out.println("Found TVScreenService");
-			if (tvScreenService.getManager().getImplementation().getStatus() && volumnControlService.getManager().getImplementation()
-					.getVolumn() == 1) {
+			if (tvScreenService.getManager().getImplementation().getStatus()
+					&& volumnControlService.getManager().getImplementation()
+							.getVolumn() == 1) {
 				g.drawImage(tvOnVol1, 0, 0, null);
 				try {
 					Thread.sleep(1000);
@@ -75,48 +76,57 @@ public class TVScreenGUI extends Frame implements MouseListener,
 					e.printStackTrace();
 				}
 				g.drawImage(tvOn, 0, 0, null);
-			} else if (tvScreenService.getManager().getImplementation().getStatus() && volumnControlService.getManager().getImplementation()
-					.getVolumn() == 2) {
+			} else if (tvScreenService.getManager().getImplementation()
+					.getStatus()
+					&& volumnControlService.getManager().getImplementation()
+							.getVolumn() == 2) {
 				System.out.println("Found VolumnControlService");
-					g.drawImage(tvOnVol2, 0, 0, null);
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					g.drawImage(tvOn, 0, 0, null);
-			} else if (tvScreenService.getManager().getImplementation().getStatus() && volumnControlService.getManager().getImplementation()
-					.getVolumn() == 3) {
+				g.drawImage(tvOnVol2, 0, 0, null);
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				g.drawImage(tvOn, 0, 0, null);
+			} else if (tvScreenService.getManager().getImplementation()
+					.getStatus()
+					&& volumnControlService.getManager().getImplementation()
+							.getVolumn() == 3) {
 				System.out.println("Found VolumnControlService");
-					g.drawImage(tvOnVol3, 0, 0, null);
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					g.drawImage(tvOn, 0, 0, null);
-			} else if (tvScreenService.getManager().getImplementation().getStatus() && volumnControlService.getManager().getImplementation()
-					.getVolumn() == 4) {
+				g.drawImage(tvOnVol3, 0, 0, null);
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				g.drawImage(tvOn, 0, 0, null);
+			} else if (tvScreenService.getManager().getImplementation()
+					.getStatus()
+					&& volumnControlService.getManager().getImplementation()
+							.getVolumn() == 4) {
 				System.out.println("Found VolumnControlService");
-					g.drawImage(tvOnVol4, 0, 0, null);
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					g.drawImage(tvOn, 0, 0, null);
-			} else if (tvScreenService.getManager().getImplementation().getStatus() && volumnControlService.getManager().getImplementation()
-					.getVolumn() == 5) {
+				g.drawImage(tvOnVol4, 0, 0, null);
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				g.drawImage(tvOn, 0, 0, null);
+			} else if (tvScreenService.getManager().getImplementation()
+					.getStatus()
+					&& volumnControlService.getManager().getImplementation()
+							.getVolumn() == 5) {
 				System.out.println("Found VolumnControlService");
-					g.drawImage(tvOnVol5, 0, 0, null);
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					g.drawImage(tvOn, 0, 0, null);
-			} else if (tvScreenService.getManager().getImplementation().getStatus()) {
-					g.drawImage(tvOn, 0, 0, null);
+				g.drawImage(tvOnVol5, 0, 0, null);
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				g.drawImage(tvOn, 0, 0, null);
+			} else if (tvScreenService.getManager().getImplementation()
+					.getStatus()) {
+				g.drawImage(tvOn, 0, 0, null);
 			} else {
 				g.drawImage(tvOff, 0, 0, null);
 			}
@@ -181,6 +191,15 @@ public class TVScreenGUI extends Frame implements MouseListener,
 
 			volumnControlService.getManager().getImplementation().gui = this;
 
+			channelControlService = new AnnotationLocalServiceBinder()
+					.read(TVChannelControl.class);
+
+			channelControlService.setManager(new DefaultServiceManager(
+					channelControlService,
+					TVChannelControl.class));
+
+			channelControlService.getManager().getImplementation().gui = this;
+
 			// return new LocalDevice(identity, type, details, icon,
 			// tvScreenService);
 			return new LocalDevice(
@@ -188,7 +207,7 @@ public class TVScreenGUI extends Frame implements MouseListener,
 					type,
 					details,
 					icon,
-					new LocalService[] { tvScreenService, volumnControlService });
+					new LocalService[] { tvScreenService, volumnControlService, channelControlService });
 
 		} catch (Exception e) {
 			e.printStackTrace();

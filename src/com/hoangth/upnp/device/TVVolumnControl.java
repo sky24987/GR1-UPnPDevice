@@ -12,7 +12,7 @@ import org.fourthline.cling.binding.annotations.UpnpStateVariable;
 public class TVVolumnControl {
 	public TVScreenGUI gui = null;
 
-	@UpnpStateVariable(defaultValue = "1")
+	@UpnpStateVariable(defaultValue = "0")
 	private int volumn = 1;
 
 	@UpnpAction
