@@ -34,7 +34,7 @@ public class TVScreenGUI extends Frame implements MouseListener,
 			tvOnVol5;
 	// private LocalService<SwitchPower> switchPowerService = null;
 	private LocalService<TVSwitchPowerWithPropertyChangeSupport> tvScreenService = null;
-	private LocalService<TVVolumnControl> volumnControlService = null;
+	private LocalService<TVVolumeControl> volumeControlService = null;
 	private LocalService<TVChannelControl> channelControlService = null;
 
 	public int WIDTH = 496;
@@ -67,8 +67,8 @@ public class TVScreenGUI extends Frame implements MouseListener,
 		if (tvScreenService != null) {
 			System.out.println("Found TVScreenService");
 			if (tvScreenService.getManager().getImplementation().getStatus()
-					&& volumnControlService.getManager().getImplementation()
-							.getVolumn() == 1) {
+					&& volumeControlService.getManager().getImplementation()
+							.getVolume() == 1) {
 				g.drawImage(tvOnVol1, 0, 0, null);
 				try {
 					Thread.sleep(1000);
@@ -78,9 +78,9 @@ public class TVScreenGUI extends Frame implements MouseListener,
 				g.drawImage(tvOn, 0, 0, null);
 			} else if (tvScreenService.getManager().getImplementation()
 					.getStatus()
-					&& volumnControlService.getManager().getImplementation()
-							.getVolumn() == 2) {
-				System.out.println("Found VolumnControlService");
+					&& volumeControlService.getManager().getImplementation()
+							.getVolume() == 2) {
+				System.out.println("Found VolumeControlService");
 				g.drawImage(tvOnVol2, 0, 0, null);
 				try {
 					Thread.sleep(1000);
@@ -90,8 +90,8 @@ public class TVScreenGUI extends Frame implements MouseListener,
 				g.drawImage(tvOn, 0, 0, null);
 			} else if (tvScreenService.getManager().getImplementation()
 					.getStatus()
-					&& volumnControlService.getManager().getImplementation()
-							.getVolumn() == 3) {
+					&& volumeControlService.getManager().getImplementation()
+							.getVolume() == 3) {
 				System.out.println("Found VolumnControlService");
 				g.drawImage(tvOnVol3, 0, 0, null);
 				try {
@@ -102,8 +102,8 @@ public class TVScreenGUI extends Frame implements MouseListener,
 				g.drawImage(tvOn, 0, 0, null);
 			} else if (tvScreenService.getManager().getImplementation()
 					.getStatus()
-					&& volumnControlService.getManager().getImplementation()
-							.getVolumn() == 4) {
+					&& volumeControlService.getManager().getImplementation()
+							.getVolume() == 4) {
 				System.out.println("Found VolumnControlService");
 				g.drawImage(tvOnVol4, 0, 0, null);
 				try {
@@ -114,8 +114,8 @@ public class TVScreenGUI extends Frame implements MouseListener,
 				g.drawImage(tvOn, 0, 0, null);
 			} else if (tvScreenService.getManager().getImplementation()
 					.getStatus()
-					&& volumnControlService.getManager().getImplementation()
-							.getVolumn() == 5) {
+					&& volumeControlService.getManager().getImplementation()
+							.getVolume() == 5) {
 				System.out.println("Found VolumnControlService");
 				g.drawImage(tvOnVol5, 0, 0, null);
 				try {
@@ -182,14 +182,14 @@ public class TVScreenGUI extends Frame implements MouseListener,
 
 			tvScreenService.getManager().getImplementation().gui = this;
 
-			volumnControlService = new AnnotationLocalServiceBinder()
-					.read(TVVolumnControl.class);
+			volumeControlService = new AnnotationLocalServiceBinder()
+					.read(TVVolumeControl.class);
 
-			volumnControlService
-					.setManager(new DefaultServiceManager<TVVolumnControl>(
-							volumnControlService, TVVolumnControl.class));
+			volumeControlService
+					.setManager(new DefaultServiceManager<TVVolumeControl>(
+							volumeControlService, TVVolumeControl.class));
 
-			volumnControlService.getManager().getImplementation().gui = this;
+			volumeControlService.getManager().getImplementation().gui = this;
 
 			channelControlService = new AnnotationLocalServiceBinder()
 					.read(TVChannelControl.class);
@@ -207,7 +207,7 @@ public class TVScreenGUI extends Frame implements MouseListener,
 					type,
 					details,
 					icon,
-					new LocalService[] { tvScreenService, volumnControlService, channelControlService });
+					new LocalService[] { tvScreenService, volumeControlService, channelControlService });
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -238,19 +238,19 @@ public class TVScreenGUI extends Frame implements MouseListener,
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		int notches = e.getWheelRotation();
 		if (notches < 0) {
-			volumnControlService
+			volumeControlService
 					.getManager()
 					.getImplementation()
-					.setVolumn(
-							volumnControlService.getManager()
-									.getImplementation().getVolumn() + 1);
+					.setVolume(
+							volumeControlService.getManager()
+									.getImplementation().getVolume() + 1);
 		} else {
-			volumnControlService
+			volumeControlService
 					.getManager()
 					.getImplementation()
-					.setVolumn(
-							volumnControlService.getManager()
-									.getImplementation().getVolumn() - 1);
+					.setVolume(
+							volumeControlService.getManager()
+									.getImplementation().getVolume() - 1);
 		}
 		repaint();
 	}

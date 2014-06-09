@@ -8,35 +8,35 @@ import org.fourthline.cling.binding.annotations.UpnpServiceId;
 import org.fourthline.cling.binding.annotations.UpnpServiceType;
 import org.fourthline.cling.binding.annotations.UpnpStateVariable;
 
-@UpnpService(serviceId = @UpnpServiceId("TVVolumnControl"), serviceType = @UpnpServiceType(value = "TVVolumnControl", version = 1))
-public class TVVolumnControl {
+@UpnpService(serviceId = @UpnpServiceId("TVVolumeControl"), serviceType = @UpnpServiceType(value = "TVVolumeControl", version = 1))
+public class TVVolumeControl {
 	public TVScreenGUI gui = null;
 
 	@UpnpStateVariable(defaultValue = "0")
-	private int volumn = 1;
+	private int volume = 1;
 
 	@UpnpAction
-	public void setVolumn(
-			@UpnpInputArgument(name = "NewVolumnValue") int newVolumnValue) {
-		if (newVolumnValue >= 1 && newVolumnValue <= 5) {
-			volumn = newVolumnValue;
-		} else if (newVolumnValue < 1) {
-			volumn = 1;
+	public void setVolume(
+			@UpnpInputArgument(name = "NewVolumeValue") int newVolumeValue) {
+		if (newVolumeValue >= 1 && newVolumeValue <= 5) {
+			volume = newVolumeValue;
+		} else if (newVolumeValue < 1) {
+			volume = 1;
 		} else {
-			volumn = 5;
+			volume = 5;
 		}
-		if (volumn == 0) {
+		if (volume == 0) {
 			System.out.println("TV is: mute");
 		} else {
-			System.out.println("TV volumn is: " + volumn);
+			System.out.println("TV volume is: " + volume);
 		}
 		if (gui != null)
 			gui.repaint();
 	}
 
-	@UpnpAction(out = @UpnpOutputArgument(name = "RetVolumnValue"))
-	public int getVolumn() {
-		return volumn;
+	@UpnpAction(out = @UpnpOutputArgument(name = "RetVolumeValue"))
+	public int getVolume() {
+		return volume;
 	}
 
 }

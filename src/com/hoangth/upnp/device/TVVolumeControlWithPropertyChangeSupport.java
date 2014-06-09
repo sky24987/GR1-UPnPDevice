@@ -10,13 +10,13 @@ import org.fourthline.cling.binding.annotations.UpnpServiceId;
 import org.fourthline.cling.binding.annotations.UpnpServiceType;
 import org.fourthline.cling.binding.annotations.UpnpStateVariable;
 
-@UpnpService(serviceId = @UpnpServiceId("TVVolumnControl"), serviceType = @UpnpServiceType(value = "TVVolumnControl", version = 1))
-public class TVVolumnControlWithPropertyChangeSupport {
+@UpnpService(serviceId = @UpnpServiceId("TVVolumeControl"), serviceType = @UpnpServiceType(value = "TVVolumeControl", version = 1))
+public class TVVolumeControlWithPropertyChangeSupport {
 	public TVScreenGUI gui = null;
 
 	private final PropertyChangeSupport propertyChangeSupport;
 
-	public TVVolumnControlWithPropertyChangeSupport() {
+	public TVVolumeControlWithPropertyChangeSupport() {
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
 	}
 
@@ -25,19 +25,19 @@ public class TVVolumnControlWithPropertyChangeSupport {
 	}
 
 	@UpnpStateVariable(defaultValue = "0")
-	private int volumn = 0;
+	private int volume = 0;
 
 	@UpnpAction
-	public void setVolumn(
-			@UpnpInputArgument(name = "NewVolumnValue") int newVolumnValue) {
+	public void setVolume(
+			@UpnpInputArgument(name = "NewVolumeValue") int newVolumeValue) {
 
-		int volumnOldValue = volumn;
-		if (newVolumnValue >= 1 && newVolumnValue <= 5) {
-			volumn = newVolumnValue;
-		} else if (newVolumnValue < 1) {
-			volumn = 1;
+		int volumeOldValue = volume;
+		if (newVolumeValue >= 1 && newVolumeValue <= 5) {
+			volume = newVolumeValue;
+		} else if (newVolumeValue < 1) {
+			volume = 1;
 		} else {
-			volumn = 5;
+			volume = 5;
 		}
 
 		// These have no effect on the UPnP monitoring but it's JavaBean
@@ -49,21 +49,21 @@ public class TVVolumnControlWithPropertyChangeSupport {
 
 		// This will send a UPnP event, it's the name of a state variable that
 		// triggers events
-		getPropertyChangeSupport().firePropertyChange("Volumn", volumnOldValue,
-				volumn);
+		getPropertyChangeSupport().firePropertyChange("Volume", volumeOldValue,
+				volume);
 
-		if (volumn == 0) {
+		if (volume == 0) {
 			System.out.println("TV is: mute");
 		} else {
-			System.out.println("TV volumn is: " + volumn);
+			System.out.println("TV volume is: " + volume);
 		}
 		if (gui != null)
 			gui.repaint();
 	}
 
-	@UpnpAction(out = @UpnpOutputArgument(name = "RetVolumnValue"))
-	public int getVolumn() {
-		return volumn;
+	@UpnpAction(out = @UpnpOutputArgument(name = "RetVolumeValue"))
+	public int getVolume() {
+		return volume;
 	}
 
 }
